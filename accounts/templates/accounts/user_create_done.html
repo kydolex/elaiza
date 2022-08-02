@@ -1,0 +1,28 @@
+{% extends "accounts/sing_base.html" %}
+
+{% block meta %}
+<title>QubeFlow キューブフロウ</title>
+<meta name="author" content="QubeFlow">
+<meta name="description" content="QubeFlowはあなたの疑問を求める以上の回答で解決します">
+<meta name="keywords" content="QubeFlow,キューブフロウ,解決記事">
+{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="p-5 bg-white p-5 card m-auto">
+    <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center"  style="width: 130px; height: 130px; background: linear-gradient(135deg,#ff1c1c,#a100f8);">
+        <i class="fa-solid fa-envelope font-weight-bold display-3 text-white"></i>
+    </div>
+    <h3 class="my-3 text-dark text-center font-weight-bold">Send completely</h3>
+    <p class="text-center text-muted" style="max-width: 350px;">
+        Membership registration has not been completed yet. <br>
+        From "gathercode@gmail" to the entered email an email has been sent.
+        If you verify your identity from the URL in the email, You can finally enter! !! 
+    </p>
+    <a href="{% url 'user_create' %}" class="mt-2 mb-3 text-muted"><small>If you do not receive the email, please enter it again.</small></a>
+</div>
+
+
+{% endblock %}

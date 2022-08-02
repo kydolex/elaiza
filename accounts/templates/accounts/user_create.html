@@ -1,0 +1,27 @@
+{% extends "accounts/sing_base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<form enctype="multipart/form-data" class="bg-white p-5 shadow mx-auto my-auto" action="" method="POST" style="max-width: 550px;">
+    <div class="w-100 d-flex flex-column mb-3 pb-2 border-bottom"  style="width: 200px;">
+        <img class="mx-auto col mb-2" style="width: 200px;" src="{%static 'img/gather-code-logo.png'%}" alt="">
+        <h4 class="h5 text-dark font-weight-bold text-center">Create Account</h4>
+      </div>
+    {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-1">
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <h6 class="text-secondary text-center">If you agree with the contents of the URL below, please check the box above.</h6>
+        <a class="d-inline-block w-100 text-center" href="{% url 'rule' %}"><small>terms of service</small></a>
+        <button  class="btn btn-warning btn-block mt-3 mb-2 text-white" type="submit">メールを送信</button>
+        
+        <a class="mt-2 mb-3 text-muted d-block text-center" href="{% url 'login' %}">Oops, have you already created an account?</a>
+</form>
+
+
+
+{% endblock %}

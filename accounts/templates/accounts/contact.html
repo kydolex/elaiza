@@ -1,0 +1,70 @@
+{% extends "accounts/sing_base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}  
+{% load markdown %}
+
+{% block meta %}
+<title>QubeFlow キューブフロウ</title>
+<meta name="author" content="QubeFlow">
+<meta name="description" content="QubeFlowはあなたの疑問を求める以上の回答で解決します">
+<meta name="keywords" content="QubeFlow,キューブフロウ,解決記事">
+{% endblock %}
+
+
+{% block content %}
+<form enctype="multipart/form-data" class="bg-white mx-auto my-4 px-2 py-4 p-md-5 shadow-sm bg-white" style="max-width: 900px;width: 100%;" action="" method="POST">
+    <div class="col-sm-12 p-0">
+        <div class="row mx-0 w-100 border-bottom mb-4 text-left">
+            <h4 class="pb-2 mr-2 Arial font-weight-bold" style="line-height: 0.9rem;">
+                <i class="fa-solid fa-paper-plane"></i>
+            </h4>
+            <h3 class="col-10 px-0 pb-2 Arial font-weight-bold" style="line-height: 1.4rem;">
+                Overview<br><small class="h6" style="line-height: 0rem;"><small class="text-secondary">気になるサービスをクリックしてください。リンクと詳細が表示されます。</small></small>
+            </h3>
+        </div>
+    </div>
+    <div class="g-3 mt-2">
+        <div class="row row m-0 p-0">
+            <div class="col-sm-6 mb-3">
+                <p class="mb-1 text-secondary text-left">{{ form.first_name.label}}</p>
+                {{ form.first_name }}
+            </div>
+            <div class="col-sm-6 mb-3">
+                <p class="mb-1 text-secondary text-left">{{ form.last_name.label}}</p>
+                {{ form.last_name }}
+            </div>
+        </div>
+        <div class="col-sm-12 mb-3">
+            <p class="mb-1 text-secondary text-left">{{ form.email.label }}</p>
+            {{ form.email }}
+        </div>
+        <div class="col-sm-12 mb-3">
+            <p class="mb-1 text-secondary text-left">{{ form.tel.label }}</p>
+            {{ form.tel }}
+        </div>
+        <div class="col-sm-12 mb-3">
+            <p class="mb-1 text-secondary text-left">{{ form.plan.label }}</p>
+            {{ form.plan }}
+        </div>
+        <div class="col-sm-12 mb-3">
+            <p class="mb-1 text-secondary text-left">{{ form.title.label }}</p>
+            {{ form.title }}
+        </div>
+        <div class="col-sm-12 mb-4">
+            <p  class="mb-1 text-secondary text-left">{{ form.text.label }}</p>
+            {{ form.text }}
+        </div>
+        <hr class="my-2">
+        <div class="col-sm-12 mb-3">
+            <p class="mb-1 text-secondary text-left">{{ form.remarks.label }}</p>
+            {{ form.remarks }}
+        </div>
+        {% csrf_token %}
+        <div class="col-sm-12 row m-0 justify-content-md-center">
+            <button type="submit" class="btn btn-outline-success mt-3 mx-auto">送信</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

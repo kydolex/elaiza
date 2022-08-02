@@ -1,0 +1,256 @@
+{% extends "app/blog_base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}  
+{% load markdown %}
+{% load number %}
+<!-- {% load markdown_extras %} -->
+
+{% block content %}
+<div class="flex-shrink-0" style="min-width: 200px; background-color: #f5f5f5;">
+
+</div>
+<div class="row w-100 mx-0 px-0">    
+  <div class="col-md-9 mt-3">
+      <div class="container" >
+          <div class="row mx-0 border-bottom mb-3 pb-2 pt-1">
+            <img class="rounded-circle px-0 col-auto blog_icon" src="{{ post_detail.author.image.size_1.url }}" alt="">
+            <p class="col my-auto text-secondary" style="line-height: 0.9rem;">
+            </p>
+          </div>
+          <div class="py-2">
+            <h2 class="text-secondary h6 pb-2">{{ post_detail.text }}</h2>
+          </div>
+        
+
+          <div class="my-2">
+              <div id="{{post_detail.middle_title}}id" class="{{post_detail.category.category.category.bg_color}}">
+                <h2 class="text-white font-weight-bold h4 p-3 mb-4">{{post_detail.middle_title}}</h2>
+              </div>
+              <div class="my-3 w-100">
+                <h3 class="px-2 {{post_detail.category.category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">{{post_detail.middle_title}}</h3>
+                <article class="container border-top py-2 mb-4 mx-0 px-auto" id="content {{ post_detail.content_1_1}}id">
+                    {{ post_detail.content_1_1|markdown|safe}}
+                </article>
+              </div>
+
+              <div class="my-4 bg-light p-4">
+                <div class="row mx-0 mb-2 pt-1">
+                  <img class="rounded-circle px-0 col-auto blog_icon" src="{{ post_detail.author.image.size_1.url }}" alt="">
+                  <p class="col my-auto text-secondary" style="line-height: 0.9rem;">
+                    <small class="font-weight-bold">
+                      {{ post_detail.author.name }}&nbsp;{{ post_detail.author.name_en }}&nbsp;/&nbsp;<span class="font-weight-normal">{{ post_detail.author.job }}</span>
+                    </small>
+                  </p>
+                </div>
+                <p class="text-dark my-1">{{ post_detail.title }}</p>
+                <p class="my-0 font07rem text-muted">最終更新日：{{ post_detail.created }}</p>
+              </div>
+
+              <div class="row mx-0">
+                {% if post_detail == like_data.like %}
+                    <div class="favorite_action  mr-1 col-auto">
+                        <a onclick="change_like()" id="like">
+                        <h6 class="favorite_class font-weight-bold pink-like"><i class="fas fa-heart"></i> {{ post_detail.like }}いいね</h6>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="favorite_action  mr-1 col-auto">
+                        <a onclick="change_like()" id="like">
+                        <h6 class="favorite_class font-weight-bold gray-like"><i class="fas fa-heart"></i> {{ post_detail.like }}いいね</h6>
+                        </a>
+                    </div>
+                {% endif %}
+                  <div class="mr-1 col-auto">
+                      <h6 class="font-weight-bold orange"><i class="fas fa-shoe-prints"></i> {{ post_detail.watch | shrink_num }}閲覧</h6>
+                  </div>
+                  <div class="mr-1 col-auto">
+                      <h6 class="font-weight-bold text-success"><i class="fas fa-comments"></i> {{ post_detail.comment | shrink_num }}コメント</h6>
+                  </div>
+              </div>
+              <hr>
+              <div class="px-2 my-4 ">
+              <ul class="comment_list">
+                  {% for comment in blog_comment %}
+                      {% if post_detail == comment.blog %}
+                          <li class="px-0 pt-2 pb-1 mt-1 list-unstyled">
+                              <div class="row mx-0 mb-2 pt-1">
+                                <img class="rounded-circle px-0 col-auto blog_icon" src="{{ comment.author.image.size_1.url }}" alt="">
+                                <p class="col my-auto text-secondary" style="line-height: 0.9rem;">
+                                  <small class="font-weight-bold">
+                                    {{ comment.author.name }} &nbsp;{{ comment.author.name_en }}&nbsp;/&nbsp;<span class="font-weight-normal">{{ comment.author.job }}</span>
+                                  </small>
+                                </p>
+                              </div>
+                              <p class="col-12 text-left pb-0 my-0">{{ comment.content }}</p>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+              </ul>
+              {% for comment in blog_comment %}
+                  {% if 1 >= forloop.counter %}
+                      {% if post_detail == comment.blog %}
+                      <div class="more mb-2">
+                          <button>コメントをもっと見る</button>
+                      </div>
+                      {% else %}
+                      {% endif %}
+                  {% endif %}
+              {% endfor %}
+              </div>
+              <hr>
+                <div class="my-4" id="form_id">
+                  <form enctype="multipart/form-data" method="post">
+                      {% csrf_token %}
+                      <h6 class="font-weight-bold text-secondary">コメントを書く</h6>
+                          {% render_field form.content class="form-control" id="exampleFormControlTextarea1" rows="3" %}
+                          <div class="d-flex justify-content-center my-3">
+                            <button type="button submit" class="btn btn-outline-success">コメントを送信する</button>
+                          </div>
+                  </form>
+                </div>
+
+      </div>
+      <div class="container">
+          <div class="row my-4 mx-0">
+          {% for post in post_data %}
+          <a href="{% url 'blog_detail' post.id %}" class="a_none col-12 col-md-4 px-0 inview_re fadeIn h-auto">
+            <div class="p-1 h-100">
+                <div class="rounded shadow-sm bg-light h-100">
+                    <div class="px-2 py-1 rounded-top {{post.category.category.category.bg_color}}">
+                        <strong class="mt-0 text-white"><i class="{{ post.category.category.font_awesome }}"></i>&nbsp;&nbsp;<span class="font07rem"><small>{{ post.category }}&nbsp;＜&nbsp;{{ post.category.category }}&nbsp;＜&nbsp;{{ post.category.category.category }}</small></span></strong>
+                    </div>
+                    <img src="{{post.category.category.image.size_3.url}}" class="w-100 back-image-fit article-img"alt="">
+                    <div class="px-3 pt-3 py-2 rounded-bottom">
+                        <h2 class="col-12 h6 text-line-2 mb-1 px-0 text-dark font-weight-bold">{{ post.title }}</h2>
+                        <p class="text-muted mb-1 font07rem border-bottom pb-2">{{ post.created }} / {{ post.author.name }}</p>
+                        <p class="card-text mb-0 text-muted"><small class="text-line-3 font08rem">{{ post.text }}</small></p>
+                    </div>
+                </div>
+            </div>
+        </a>
+          {% endfor %}
+        </div>
+      </div>
+
+  </div>
+    
+  <div class="col-md-3 detail_card">
+    {% for post in service_data %}
+    {% if 5 >= forloop.counter %}
+      <div class="col my-3">
+        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-sm" style="background-image: url('{{ post.image.size_3.url }}');">
+          <div class="d-flex flex-column h-100 p-4 text-white text-shadow-1 site-map-fillter">
+            <h2 class="mt-5 mb-5 display-6 lh-1 fw-bold">{{ post.sub_title }}</h2>
+            <ul class="d-flex list-unstyled mt-auto flex-column">
+              <li class="d-flex align-items-center me-3">{{ post.title }}</li>
+              <li class="d-flex align-items-center me-3">
+                <small> {{ post.catch_copy_text }}</small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+  </div>  
+
+  </div>
+  <div class="col-md-3">
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function change_like() {
+      var api_url = "{% url 'like_change' post_detail.pk %}";
+      var btn = document.getElementById("like");
+      var request = new XMLHttpRequest();
+      function color_if () {
+          if($('.favorite_action h6').hasClass('gray-like')){
+              var addClass = "pink-like";
+              return addClass;
+          } else if ($('.favorite_action h6').hasClass('pink-like')){
+              var addClass = "gray-like";
+              return addClass;
+          }
+      }
+      request.onreadystatechange = function () {
+          if (request.readyState === 4 && request.status === 200) {
+              var received_data = JSON.parse(request.responseText);
+              btn.innerHTML =
+              "<h6 class='font-weight-bold "+color_if()+"'><i class='fas fa-heart'></i> " +received_data.like+ "いいね</h6>";
+          }}
+      request.open("GET",api_url);
+      request.send();
+     }
+
+
+     var moreNum = 3;
+        $('.comment_list li:nth-child(n + ' + (moreNum + 1) + ')').addClass('is-hidden');
+        $('.comment_list li:nth-child(n + ' + (moreNum + 1) + ') img').addClass('is-hidden');
+        $('.comment_list li p:nth-child(n + ' + (moreNum + 1) + ')').addClass('is-hidden');
+        $('.comment_list li:nth-child(n + ' + (moreNum + 1) + ') a').addClass('is-hidden');
+        $('.comment_list li:nth-child(n + ' + (moreNum + 1) + ') div').addClass('is-hidden');
+        $('.comment_list li:nth-child(n + ' + (moreNum + 1) + ') small').addClass('is-hidden');
+
+        $('.more').on('click', function() {
+        $('.comment_list li.is-hidden').slice(0, moreNum).removeClass('is-hidden');
+        $('.comment_list li img.is-hidden').slice(0, moreNum).removeClass('is-hidden');
+        $('.comment_list li p.is-hidden').slice(0, moreNum).removeClass('is-hidden');
+        $('.comment_list li a.is-hidden').slice(0, moreNum).removeClass('is-hidden');
+        $('.comment_list li div.is-hidden').slice(0, moreNum).removeClass('is-hidden');
+        $('.comment_list li small.is-hidden').slice(0, moreNum).removeClass('is-hidden');
+        if ($('.comment_list li.is-hidden').length == 0) {
+            $('.more').fadeOut();
+        }
+        });
+        window.onload = function(){ 
+      $(function () {
+      $('.ac-child').css("display", "none");
+      $('.ac-parent').on('click', function () {
+          $(this).next().slideToggle();
+          $('.ac-parent').not($(this)).next('.ac-child').slideUp();
+      })
+
+      $('.close-button').on('click', function () {
+          $(this).parent('.ac-child').slideUp(); 
+      })
+      });
+  };
+
+  $(function(){
+      $(".inview_re").on("inview", function (event, isInView) {
+          if (isInView) {
+          $(this).stop().addClass("is-show");
+          } else {
+          $(this).stop().removeClass("is-show");
+          }
+      });
+  });
+
+  $(function(){
+    // #で始まるアンカーをクリックした場合に処理
+    $('a[href^="#"]').click(function(){
+      // 移動先を50px上にずらす
+      var adjust = 50;
+      // スクロールの速度
+      var speed = 400; // ミリ秒
+      // アンカーの値取得
+      var href= $(this).attr("href");
+      // 移動先を取得
+      var target = $(href == "#" || href == "" ? 'html' : href);
+      // 移動先を調整
+      var position = target.offset().top - adjust;
+      // スムーススクロール
+      $('body,html').animate({scrollTop:position}, speed, 'swing');
+      return false;
+    });
+  });
+</script>
+{% endblock %}
+
+{% load static %}

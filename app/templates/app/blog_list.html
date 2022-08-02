@@ -1,0 +1,83 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% load widget_tweaks %}  
+{% load static %}
+
+{% block content %}
+
+{% if car_detail %}
+    <div class="carousel-inner">
+        <div class="carousel-item active overflow-hidden back-image-fit" style="background-image: url('{{car_detail.image.size_5.url }}');">
+            <div class="row justify-content-center align-items-center m-0 w-100 h-100 bg-dark-gr-filter">
+                <div class="col-9"> 
+                    <h1 class="font-weight-bold text-white">{{ car_detail.name }}</h1>
+                    <p class="font-weight-bold h5 px-2 text-white mt-3">{{ car_detail.content }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% elif shop_detail %}
+    <div class="carousel-inner">
+        <div class="carousel-item active overflow-hidden back-image-fit" style="background-image: url('{{ shop_detail.image.size_5.url }}');">
+            <div class="row justify-content-center align-items-center m-0 w-100 h-100 bg-dark-gr-filter">
+                <div class="col-5"> 
+                    <img class="col-9 d-block mx-auto drop-shadow-lb mt-5" src="{{ shop_detail.icon.size_4.url }}" alt=""  style="fill:#fff;">
+                    <h1 class="font-weight-bold text-white text-center mt-2">{{ shop_detail.name }}</h1>
+                    <p class="font-weight-bold h6 px-2 text-white mt-3">{{ shop_detail.content }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="container col px-3 pt-3 mt-5 mb-5">
+    <h3 class="font-weight-bold">Blog List</h3>
+    <p class="font09rem text-secondary">最新の情報をお届けしています。</p>
+    <div class="row mx-0">
+        {% for post in post_data %}
+        <a href="{% url 'blog_detail' post.id %}" class="col-md-3 col-6 p-2 a_none">
+            <div class="shadow-sm bg-white h-100">
+                <img class="w-100 back-image-fit" style="aspect-ratio: 2 / 1;" src="{%static 'img/AdobeStock_503744566.jpeg'%}" alt="">
+                <div class="p-3">
+                    <h6 class="text-line-2 text-dark font-weight-bold">{{ post.title }}</h6>
+                    <p class="text-line-5 font09rem text-secondary mb-0">
+                        {{ post.text }}
+                    </p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+    
+
+{% endblock %}
+
+{% block script %}
+<script>
+    window.onload = function(){ 
+        $(function () {
+        $('.ac-child').css("display", "none");
+        $('.ac-parent').on('click', function () {
+            $(this).next().slideToggle();
+            $('.ac-parent').not($(this)).next('.ac-child').slideUp();
+        })
+
+        $('.close-button').on('click', function () {
+            $(this).parent('.ac-child').slideUp(); 
+        })
+        });
+    };
+
+    $(function(){
+        $(".inview_re").on("inview", function (event, isInView) {
+            if (isInView) {
+            $(this).stop().addClass("is-show");
+            } else {
+            $(this).stop().removeClass("is-show");
+            }
+        });
+    });
+</script>
+{% endblock %}

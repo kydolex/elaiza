@@ -1,0 +1,43 @@
+{% extends "accounts/account_base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% load widget_tweaks %}  
+
+{% block meta %}
+<title>QubeFlow キューブフロウ</title>
+<meta name="author" content="QubeFlow">
+<meta name="description" content="QubeFlowはあなたの疑問を求める以上の回答で解決します">
+<meta name="keywords" content="QubeFlow,キューブフロウ,解決記事">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container my-3" style="max-width:1600px;">
+  <div class="col-md-10 p-2 mx-auto">
+      <div class="container shadow col-md-6 p-4 bg-white my-5" style="padding:20px 0; border-radius: 10px;">
+        <form method="post" class="form-signin">
+            <img class="mb-4" src="{%static 'img/GitHub.png'%}" alt="" width="72" height="72">
+            <h4 class="h3 mb-3 font-weight-bold">Please log in</h4>
+
+                <!-- {% csrf_token %}
+
+                {% for field in form %}
+                        {{ field | add_class:"form-control my-1"}}
+                        {{ field.errors }}
+                {% endfor %} -->
+
+                <div class="checkbox mb-3">
+                    <label>
+                      <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+
+            <button class="btn btn-warning btn-block mb-5" type="submit">サインイン</button>
+            <a href="{% url 'user_create' %}" class="mt-5 mb-3 text-muted">アカウント登録は済んでいませんでしたか？</a>
+        </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

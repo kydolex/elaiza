@@ -1,0 +1,53 @@
+{% extends "app/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% load widget_tweaks %}  
+
+{% block content %}
+<form class="container p-5  m-auto" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row mx-0 border-bottom mt-3 py-3 px-0">
+        <div class="col-4 col-md-2">
+            <img class="rounded-circle border w-100 back-image-fit" src="{{user_data.icon.size_2.url}}" alt="">
+            {% render_field form.icon class="icon_upload border rounded my-2" %}
+            <p class="text-secondary font08rem">png / jpeg / HEIC <br>Only in the above format </p>
+        </div>
+        
+        <div class="col-8 col-md-10 mb-auto px-1">
+            <p class="mb-0 px-0  text-secondary">{{ form.name.label }}</p>
+            {% render_field form.name class="form-control mb-2" %}
+            <p class="mb-0 px-0  text-secondary">{{ form.user_id.label }}</p>
+            {% render_field form.user_id class="form-control mb-2"%}
+            <p class="mb-0 px-0  text-secondary">{{ form.content.label }}</p>
+            {% render_field form.content class="form-control mb-2" %}
+            <div class="row mx-0 my-2">
+                <p class="mb-0 px-0  text-secondary">{{ form.github.label }}</p>
+                <img class="col-auto my-auto" src="{%static 'img/GitHub.png'%}" alt="" height="34" style="object-fit: cover;">
+                {% render_field form.github class="col form-control" %}
+            </div>
+            <div class="row mx-0 my-2">
+                <p class="mb-0 px-0  text-secondary">{{ form.instagram.label }}</p>
+                <img class="col-auto my-auto" src="{%static 'img/Instagram.png'%}" alt="" height="34" style="object-fit: cover;">
+                {% render_field form.instagram class="col form-control" %}
+            </div>
+            <div class="row mx-0 my-2">
+                <p class="mb-0 px-0  text-secondary">{{ form.youtube.label }}</p>
+                <img class="col-auto my-auto"  src="{%static 'img/youtube.png'%}" alt="" height="34" style="object-fit: cover;">
+                {% render_field form.youtube class="col form-control" %}
+            </div>
+            <div class="row mx-0 my-2">
+                <p class="mb-0 px-0  text-secondary">{{ form.twitter.label }}</p>
+                <img class="col-auto my-auto" src="{%static 'img/twitter.png'%}" alt="" height="34" style="object-fit: cover;">
+                {% render_field form.twitter class="col form-control" %}
+            </div>
+            <p class="mb-0 px-0  text-secondary">{{ form.site.label }}</p>
+            {% render_field form.site class="col form-control" %}
+            <div class="mt-3">
+                <button  class="btn btn-info text-white w-100" type="submit">Save</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+

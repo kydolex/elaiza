@@ -1,0 +1,64 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% load widget_tweaks %}  
+{% load static %}
+
+
+{% block content %}
+<div class="container col px-3 pt-3 mt-5 mb-5">
+    <h3 class="font-weight-bold">Shop List</h3>
+    <p class="font09rem text-secondary">最新の情報をお届けしています。</p>
+    <div class="row mx-0">
+        {% for post in shop_data %}
+        <a href="{% url 'shop_detail' post.id %}" class="col-md-6 col-12 p-2 a_none">
+            <div class="shadow-sm h-100">
+                <div class="back-image-fit" style="background-image: url('{{ post.image.size_5.url}}');">
+                    <div class="bg-dark-gr-filter py-4 d-flex align-items-center justify-content-center">
+                        <div class="py-5">
+                            <img class="w-100 d-block col-5 mx-auto pt-4 drop-shadow" src="{{ post.icon.size_4.url}}" alt="">
+                            <h5 class="font-weight-bold text-center text-white px-3 pt-3 mb-0">{{ post.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <p class="text-line-5 px-2 font09rem text-secondary mb-0">
+                        {{ post.content }}
+                    </p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        </div>
+
+</div>
+    
+
+{% endblock %}
+
+{% block script %}
+<script>
+    window.onload = function(){ 
+        $(function () {
+        $('.ac-child').css("display", "none");
+        $('.ac-parent').on('click', function () {
+            $(this).next().slideToggle();
+            $('.ac-parent').not($(this)).next('.ac-child').slideUp();
+        })
+
+        $('.close-button').on('click', function () {
+            $(this).parent('.ac-child').slideUp(); 
+        })
+        });
+    };
+
+    $(function(){
+        $(".inview_re").on("inview", function (event, isInView) {
+            if (isInView) {
+            $(this).stop().addClass("is-show");
+            } else {
+            $(this).stop().removeClass("is-show");
+            }
+        });
+    });
+</script>
+{% endblock %}

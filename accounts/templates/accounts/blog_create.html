@@ -1,0 +1,166 @@
+{% extends "app/blog_base.html" %}
+{% load widget_tweaks %}
+{% load static %} 
+{% load markdown %}
+{% load number %}
+{% load markdown_extras %}
+
+
+{% block meta %}
+<title>QubeFlow キューブフロウ</title>
+<meta name="author" content="QubeFlow">
+<meta name="description" content="QubeFlowはあなたの疑問を求める以上の回答で解決します">
+<meta name="keywords" content="QubeFlow,キューブフロウ,解決記事">
+{% endblock %}
+
+{% block content %}
+<div class="flex-shrink-0" style="min-width: 200px; background-color: #f5f5f5;">
+
+</div>
+<form method="post" enctype="multipart/form-data" class="w-100">
+    {% csrf_token %}
+    <div class="col-md-9 bg-white py-2">
+        <div class="my-md-2">
+            <div class="row mx-0 border-bottom mb-3 pb-2 pt-1">
+            <h6 class="col-12 px-0">作成者</h6>
+            <img class="rounded-circle px-0 col-auto" style="width: 30px; height: 30px; object-fit: cover;" src="{{ user_data.image.url }}" alt="">
+            <p class="col my-auto text-secondary"><small><small class="font-weight-bold">{{ user_data.name }}</small></small></p>
+            </div>
+
+            <div class="py-2">
+                <h6 class="col-12 px-0">{{ form.title.label }}</h6>
+                {{ form.title |add_class:'mb-1'}}
+                <h6 class="col-12 px-0">{{form.category.label}}</h6>
+                {{ form.category |add_class:'mb-3'}}
+                <h6 class="col-12 px-0">{{form.keywords.label}}</h6>
+                {{ form.keywords |add_class:'mb-3'}}
+                <h6 class="col-12 px-0">{{ form.text.label }}</h6>
+                {{ form.text |add_class:'mb-3'}}
+            </div>
+
+    
+            <div class="maek-heigh">
+                <div class="{{bloger_category.category.bg_color}} py-3 mb-2">
+                    <h2 class="text-white font-weight-bold h4 px-3 mb-0">{{form.middle_title.label}}</h2>
+                    <h2 class="text-white font-weight-bold h4 px-3">{{form.middle_title}}</h2>
+                </div>
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_1_1 }}
+                </div>
+                    {{ form.content_1_1 | add_class:'maek-height' }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_1_2 }}
+                </div>
+                    {{ form.content_1_2 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_1_3 }}
+                </div>
+                    {{ form.content_1_3 | add_class:'maek-height'  }}
+            </div>
+
+            <div class="maek-heigh">
+                <div class="{{bloger_category.category.bg_color}} py-3 mb-2">
+                    <h2 class="text-white font-weight-bold h4 px-3 mb-0">{{form.middle_title_2.label}}</h2>
+                    <h2 class="text-white font-weight-bold h4 px-3">{{form.middle_title_2}}</h2>
+                </div>
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_2_1 }}
+                </div>
+                    {{ form.content_2_1 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_2_2 }}
+                </div>
+                    {{ form.content_2_2 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_2_3 }}
+                </div>
+                    {{ form.content_2_3 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_2_4 }}
+                </div>
+                    {{ form.content_2_4 | add_class:'maek-height'  }}
+            </div>
+
+            <div class="maek-heigh">
+                <div class="{{bloger_category.category.bg_color}} py-3 mb-2">
+                    <h2 class="text-white font-weight-bold h4 px-3 mb-0">{{form.middle_title_3.label}}</h2>
+                    <h2 class="text-white font-weight-bold h4 px-3">{{form.middle_title_3}}</h2>
+                </div>
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_3_1 }}
+                </div>
+                    {{ form.content_3_1 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_3_2 }}
+                </div>
+                    {{ form.content_3_2 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_3_3 }}
+                </div>
+                    {{ form.content_3_3 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_3_4 }}
+                </div>
+                    {{ form.content_3_4 | add_class:'maek-height'  }}
+            </div>
+
+            <div class="maek-heigh">
+                <div class="{{bloger_category.category.bg_color}} py-3 mb-2">
+                    <h2 class="text-white font-weight-bold h4 px-3 mb-0">{{form.middle_title_4.label}}</h2>
+                    <h2 class="text-white font-weight-bold h4 px-3">{{form.middle_title_4}}</h2>
+                </div>
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_4_1 }}
+                </div>
+                    {{ form.content_4_1 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_4_2 }}
+                </div>
+                    {{ form.content_4_2 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_4_3 }}
+                </div>
+                    {{ form.content_4_3 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_4_4 }}
+                </div>
+                    {{ form.content_4_4 | add_class:'maek-height'  }}
+            </div>
+
+            <div class="maek-heigh">
+                <div class="{{bloger_category.category.bg_color}} py-3 mb-2">
+                    <h2 class="text-white font-weight-bold h4 px-3 mb-0">{{form.middle_title_5.label}}</h2>
+                    <h2 class="text-white font-weight-bold h4 px-3">{{form.middle_title_5}}</h2>
+                </div>
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_5_1 }}
+                </div>
+                    {{ form.content_5_1 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_5_2 }}
+                </div>
+                    {{ form.content_5_2 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_5_3 }}
+                </div>
+                    {{ form.content_5_3 | add_class:'maek-height'  }}
+                <div class="px-2 {{bloger_category.category.border_color}} border-left border-5 h5 font-weight-bold mb-3">
+                    {{ form.small_title_5_4 }}
+                </div>
+                    {{ form.content_5_4 | add_class:'maek-height'  }}
+            </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm">
+                  <button type="submit" class="btn {{bloger_category.category.bg_color}} text-white btn-block">投稿</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form.media }} 
+</form>
+
+
+{% endblock %}
+
