@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from zlib import MAX_WBITS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,15 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#&8#p*uiyn_0rfr7lhn#%^bsf+p=7n9j=(iy6p8vo+$am86ftt'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -238,3 +231,50 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
 ACTIVATION_TIMEOUT_SECONDS = 60*60*24
+
+
+
+# デプロイ設定
+DEBUG = False
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+
+# ローカル用設定
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+if not DEBUG:
+    import environ
+    env = environ.Env()
+    env.read_env(os.path.join(BASE_DIR,'.env'))
+
+
+    SECRET_KEY = env('SECRET_KEY')
+    ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+    AUTH_USER_MODEL = 'accounts.CustomUser'
+    ACCOUNT_AUTHENTICATION_METHOD = 'email'
+    ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_USERNAME_REQUIRED = False
+
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.googlemail.com'
+    DEFAULT_FROM_EMAIL ='kydolex@gmail.com'
+    EMAIL_HOST_USER = 'kydolex@gmail.com'
+    EMAIL_HOST_PASSWORD = 'tsmxgezdsewhojkv'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    ACTIVATION_TIMEOUT_SECONDS = 60*60*24
+
+    STATIC_ROOT = '/usr/share/nginx/html/static'
+    MEDIA_ROOT = '/usr/share/nginx/html/media'
+
+    DEBUG = False
