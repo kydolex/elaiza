@@ -4,7 +4,7 @@ from .models import Post
 from .models import Blog_Post,Blog_Comment,Category,ShopCategory,CarCategory
 from .models import LikePostAll,LikePost
 from accounts.models import CustomUser
-
+from .forms import BlogCommentForm
 from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponseBadRequest
@@ -132,7 +132,7 @@ class BlogDetailView(View):
             user_data = None
         post_detail = Blog_Post.objects.get(id=self.kwargs['pk'])
         post_data = Blog_Post.objects.order_by("?")
-        # form = BlogCommentForm(request.POST, request.FILES)
+        form = BlogCommentForm(request.POST, request.FILES)
         blog_comment = Blog_Comment.objects.order_by('id')
 
         post_detail.watch += 1
@@ -148,30 +148,31 @@ class BlogDetailView(View):
             'post_data': post_data,
             'like_data':like_data,
             'blog_comment': blog_comment,
+            'form':form,
         })
-    # def post(self, request, *args, **kwargs):
-    #     try:
-    #         user_data = CustomUser.objects.get(id=request.user.id)
-    #     except CustomUser.DoesNotExist:
-    #         user_data = None
-    #         bloger_category = None
-    #     form = BlogCommentForm(request.POST, request.FILES)
-    #     blog_detail = Blog_Post.objects.get(id=self.kwargs['pk'])
-    #     blog_detail.comment += 1
-    #     blog_detail.save()
-    #     if form.is_valid():
-    #         form_data = Blog_Comment()
-    #         form_data.author = request.user
-    #         form_data.content = form.cleaned_data['content']
-    #         form_data.blog = Blog_Post.objects.get(id=self.kwargs['pk'])
-    #         id = "form_id"
-    #         form_data.save()
-    #         return redirect('blog_detail', self.kwargs['pk'])
-    #     return render(request, 'app/blog_detail.html', {
-    #         'user_data':user_data,
-    #         'bloger_category':bloger_category,
-    #         'form': form,
-    #     })
+    def post(self, request, *args, **kwargs):
+        try:
+            user_data = CustomUser.objects.get(id=request.user.id)
+        except CustomUser.DoesNotExist:
+            user_data = None
+            bloger_category = None
+        form = BlogCommentForm(request.POST, request.FILES)
+        blog_detail = Blog_Post.objects.get(id=self.kwargs['pk'])
+        blog_detail.comment += 1
+        blog_detail.save()
+        if form.is_valid():
+            form_data = Blog_Comment()
+            form_data.author = request.user
+            form_data.content = form.cleaned_data['content']
+            form_data.blog = Blog_Post.objects.get(id=self.kwargs['pk'])
+            id = "form_id"
+            form_data.save()
+            return redirect('blog_detail', self.kwargs['pk'])
+        return render(request, 'app/blog_detail.html', {
+            'user_data':user_data,
+            'bloger_category':bloger_category,
+            'form': form,
+        })
 
 
 class Change_Like(LoginRequiredMixin,View):
