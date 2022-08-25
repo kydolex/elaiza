@@ -27,6 +27,11 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inview/1.0.0/jquery.inview.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <link rel="icon" type="image/png" href="{%static 'img/logo.svg'%}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{%static 'img/logo.svg'%}">
+  {% block meta %}
+  {% endblock %}
 </head>
 <body>
   <header>
@@ -109,7 +114,7 @@
 
 </footer>
 <div class="col-12 py-3 bg-dark flex-column">
-  <a class="a_none text-center w-100 mb-0 pb-0 font-weight-bold" style="display: inline-block; color: #ffffff;" href="oumachan.com">
+  <a class="a_none text-center w-100 mb-0 pb-0 font-weight-bold" style="display: inline-block; color: #c0c0c0;" href="oumachan.com">
     ©︎ https://elaiza-craft.com
   </a>
 </div>
@@ -128,4 +133,6 @@
       startPos = winScrollTop;
   });
 </script>
+{% block script %}
+{% endblock %}
 </html>
