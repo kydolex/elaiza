@@ -1,6 +1,7 @@
 function clickDisplayAlert(num) {
     var question = document.getElementById('question');
     var answer = document.getElementById('answer');
+    var need =[]
     switch (num){
         case 1:
             $("#answer").fadeOut(400,function(){

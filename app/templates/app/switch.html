@@ -1,0 +1,55 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% load widget_tweaks %}  
+{% load static %}
+
+{% block content %}
+<div class="back-image-fit" style="background-image: url('/static/img/AdobeStock_224041548.jpeg');">
+    <div class="container px-3 py-5">
+        <div class="bg-white-filter">
+            <h4 class="col-auto text-center px-4 py-3 mb-0 font-weight-bold border-bottom"><i class="fa-solid fa-code-merge"></i> 中古車診断</h4>
+            <div class="row mx-0 p-4">
+                <div class="col-md-6 col-12 px-0 px-md-4 d-flex justify-content-center align-items-center text-center border bg-white" style="height: 250px;" id="question">
+                    <h5 class="font-weight-bold">好きな車のサイズは？</h5>
+                </div>
+                <div class="col-md-6 col-12 px-0 px-md-4 mt-3 mt-md-0" id="answer">
+                    <button onclick="clickDisplayAlert(1)">維持費の安い軽自動車</button>
+                    <button onclick="clickDisplayAlert(2)">小さい5人乗りの普通車</button>
+                    <button onclick="clickDisplayAlert(3)">高級感・直進安定性の高いセダン</button>
+                    <button onclick="clickDisplayAlert(4)">高級感・悪路を快適に進むSUV</button>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    window.onload = function(){ 
+        $(function () {
+        $('.ac-child').css("display", "none");
+        $('.ac-parent').on('click', function () {
+            $(this).next().slideToggle();
+            $('.ac-parent').not($(this)).next('.ac-child').slideUp();
+        })
+
+        $('.close-button').on('click', function () {
+            $(this).parent('.ac-child').slideUp(); 
+        })
+        });
+    };
+
+    $(function(){
+        $(".inview_re").on("inview", function (event, isInView) {
+            if (isInView) {
+            $(this).stop().addClass("is-show");
+            } else {
+            $(this).stop().removeClass("is-show");
+            }
+        });
+    });
+</script>
+<script src="{% static 'js/qa.js' %}"></script>
+{% endblock %}

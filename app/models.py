@@ -13,7 +13,7 @@ from accounts.models import CustomUser
 
 
 class Post(models.Model):
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 	title = models.CharField("タイトル", max_length=200)
 	content = models.TextField("本文")
 	created = models.DateTimeField("作成日", default=timezone.now)
@@ -21,31 +21,9 @@ class Post(models.Model):
 	def __str__(self):
 		return self.title
 
-
-class ShopCategory(models.Model):
-	name = models.CharField("カテゴリ", max_length=50)
-	content = models.TextField("本文",null=True, blank=True)
-	icon = StdImageField(upload_to='images', verbose_name='アイコン',  null=True, blank=True ,variations={
-		'size_1': (200, 100, True),
-		'size_2': (400, 400),
-		'size_3': (600, 600),
-		'size_4': (800, 600),
-		'size_5': (3000, 2000),
-	})
-	image = StdImageField(upload_to='images', verbose_name='イメージ画像',  null=True, blank=True ,variations={
-		'size_1': (200, 100, True),
-		'size_2': (400, 400),
-		'size_3': (600, 600),
-		'size_4': (800, 600),
-		'size_5': (3000, 2000),
-	})
-	def __str__(self):
-		return self.name
-
-class CarCategory(models.Model):
-    name = models.CharField("カテゴリ", max_length=50)
-    content = models.TextField("本文",null=True, blank=True)
-    image = StdImageField(upload_to='images', verbose_name='イメージ画像',  null=True, blank=True ,variations={
+class Maker(models.Model):
+    maker = models.CharField("メーカー名", max_length=200,null=True)
+    image = StdImageField(upload_to='images', verbose_name='アイコン',  null=True, blank=True ,variations={
         'size_1': (200, 100, True),
         'size_2': (400, 400),
         'size_3': (600, 600),
@@ -53,106 +31,102 @@ class CarCategory(models.Model):
         'size_5': (3000, 2000),
     })
     def __str__(self):
-        return self.name
+        return self.maker
 
-class Category(models.Model):
-    COLOR_SELECT = (
-        ('green', '緑'),
-        ('dark', '黒'),
-        ('blue', '青'),
-        ('light-blue', '水色'),
-        ('yellow', '黄色'),
-        ('red', '赤'),
-        ('pink', 'ピンク'),
-        ('orange', 'オレンジ'),
-    )
-    BACK_COLOR_SELECT = (
-        ('bg-green', '緑'),
-        ('bg-red', '黒'),
-        ('bg-blue', '青'),
-        ('bg-light-blue', '水色'),
-        ('bg-yellow', '黄色'),
-        ('bg-red', '赤'),
-        ('bg-pink', 'ピンク'),
-        ('bg-orange', 'オレンジ'),
-    )
-    BACK_COLOR_SELECT_FILTER = (
-        ('bg-green-filter', '緑'),
-        ('bg-red-filter', '黒'),
-        ('bg-blue-filter', '青'),
-        ('bg-light-blue-filter', '水色'),
-        ('bg-yellow-filter', '黄色'),
-        ('bg-red-filter', '赤'),
-        ('bg-pink-filter', 'ピンク'),
-        ('bg-orange-filter', 'オレンジ'),
-    )
-    BORDER_COLOR = (
-        ('border-green', '緑'),
-        ('border-red', '黒'),
-        ('border-blue', '青'),
-        ('border-light-blue', '水色'),
-        ('border-yellow', '黄色'),
-        ('border-red', '赤'),
-        ('border-pink', 'ピンク'),
-        ('border-orange', 'オレンジ'),
-    )
-    color = models.CharField(choices=COLOR_SELECT,verbose_name="色",max_length=60,null=True, blank=True)
-    bg_color = models.CharField(choices=BACK_COLOR_SELECT,verbose_name="背景色",max_length=60,null=True, blank=True)
-    border_color = models.CharField(choices=BORDER_COLOR,verbose_name="線色",max_length=60,null=True, blank=True)
-    bg_color_filter = models.CharField(choices=BACK_COLOR_SELECT_FILTER,verbose_name="背景色(透け)",max_length=60,null=True, blank=True)
-    name = models.CharField("カテゴリ", max_length=50)
-    content = models.TextField("本文",null=False, blank=True)
-    image = StdImageField(upload_to='images', verbose_name='イメージ画像',  null=True, blank=True ,variations={
-        'size_1': (200, 100, True),
-        'size_2': (400, 400),
-        'size_3': (600, 600),
-        'size_4': (800, 600),
-        'size_5': (3000, 2000),
+class Car(models.Model):
+    maker = models.ForeignKey(Maker,related_name='maker_key', on_delete=models.CASCADE)
+    car = models.CharField("車名", max_length=200,null=True)
+    def __str__(self):
+        return self.car
+
+
+class Item(models.Model):
+    car = models.ForeignKey(Car,related_name='car_key', on_delete=models.CASCADE)
+    name = models.CharField("車名", max_length=200,null=True)
+    year = models.CharField("年式　ex) 平成24年6月", max_length=200,null=True)
+    syaken = models.CharField("車検　ex) 令和6年6月", max_length=200,null=True)
+    distance = models.CharField("走行距離", max_length=200,null=True)
+    biko = models.TextField("備考欄", max_length=200,null=True)
+    url = models.TextField("ジモティに行くリンク", max_length=200,null=True)
+    image = StdImageField(upload_to='images', verbose_name='最初の写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_2 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_3 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_4 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_5 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_6 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_7 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_8 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_9 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_10 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_11 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_12 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_13 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_14 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_15 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_16 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_17 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_18 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_19 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
+    })
+    image_20 = StdImageField(upload_to='images', verbose_name='写真',  null=True, blank=True ,variations={
+        'size_1': (400, 400, True),
+        'size_2': (1000, 1000),
     })
     def __str__(self):
         return self.name
-
-
-class Blog_Post(models.Model):
-	author = models.ForeignKey(CustomUser,null=True, on_delete=models.CASCADE, blank=True)
-	category = models.ForeignKey(CarCategory, verbose_name='カテゴリ', on_delete=models.PROTECT,related_name='related_blog',null=True, blank=True)
-	shop_category = models.ForeignKey(ShopCategory, verbose_name='店カテゴリ', on_delete=models.PROTECT,related_name='related_shop',null=True, blank=True)
-	car_category = models.ForeignKey(Category, verbose_name='車カテゴリ', on_delete=models.PROTECT,related_name='related_car',null=True, blank=True)
-	keywords= models.CharField("キーワード", max_length=200,null=True, blank=True)
-	title = models.CharField("タイトル", max_length=200)
-	text= models.TextField("アピール文",null=True, blank=True)
-	content_1_1 = MDTextField("本文",null=True, blank=True)
-	created = models.DateTimeField("作成日", default=timezone.now)
-	like = models.IntegerField(default=0)
-	watch = models.IntegerField(default=0)
-	comment = models.IntegerField(default=0) 
-
-	def __str__(self):
-		return self.title
-
-class Blog_Comment(models.Model):
-    author = models.ForeignKey(CustomUser,null=True, on_delete=models.CASCADE, blank=True)
-    blog = models.ForeignKey(Blog_Post, on_delete=models.CASCADE,null=True)
-    content = models.CharField("コメント", max_length=200,null=True)
-    created = models.DateTimeField("作成日", default=timezone.now)
-
-    def __str__(self):
-        return self.blog
-
-class LikePostAll(models.Model):
-    user = models.ForeignKey(CustomUser,null=True, on_delete=models.CASCADE, blank=True)
-    like = models.ForeignKey(Blog_Post, on_delete=models.CASCADE)
-    ordered = models.BooleanField(default=False)
-    quantity = models.IntegerField(default=1)
-
-    def __str__(self):
-        return self.user.email
-        
-class LikePost(models.Model):
-    user = models.ForeignKey(CustomUser,null=True, on_delete=models.CASCADE, blank=True)
-    likes = models.ManyToManyField(LikePostAll)
-    ordered = models.BooleanField(default=False)
-    quantity = models.IntegerField(default=1)
-
-    def __str__(self):
-        return self.user.email

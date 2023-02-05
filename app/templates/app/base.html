@@ -30,91 +30,70 @@
 
   <link rel="icon" type="image/png" href="{%static 'img/logo.svg'%}">
   <link rel="apple-touch-icon" sizes="180x180" href="{%static 'img/logo.svg'%}">
+  {% block extrajs %}{% endblock %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5760060698921034" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
+
   {% block meta %}
   {% endblock %}
 </head>
 <body>
   <header>
-    <div class="header-main row mx-0 px-3 py-1">
-        <a class="px-0 py-1" href="/" style="width: 110px;">
-          <img class="back-image-fit h-100 w-100" src="{%static 'img/logo.svg'%}" alt="">
-        </a>
-        <form class="col-sm-3 col-7 d-flex px-0 ml-auto" method="get" action="" >
-          <input class="search-form my-auto" type="text" name="keyword" placeholder="Search...">
-        </form>
-    </div>
-    <div class="header-button row mx-0 px-0 shadow" id="scrollHide">
-        <a class="col {{header_active_1}} hv-light-blue" href="/"><i class="fa-solid fa-house"></i>&emsp;ホーム</a>
-        <a class="col {{header_active_2}} hv-light-blue" href="{% url 'blog_list' %}"><i class="fa-solid fa-list"></i>&emsp;記事</a>
-        <a class="col {{header_active_3}} hv-light-blue" href="{% url 'shop_list' %}"><i class="fa-solid fa-shop"></i>&emsp;中古車販売店</a>
-        <a class="col {{header_active_4}} hv-light-blue" href="{% url 'car_list' %}"><i class="fa-solid fa-car-side"></i>&emsp;車種・メーカー</a>
-        <a class="col {{header_active_5}} hv-light-blue" href=""><i class="fa-solid fa-cart-shopping"></i>&emsp;オンラインストア</a>
-    </div>
+    <nav class="navbar-expand-xl navbar-light py-0 border-bottom">
+      <div class="row mx-0 p-1 nav-top bg-white">
+        <a class="navbar-brand d-flex mr-auto mx-md-2 font-weight-bold" style="width: 110px;" href="/"><img class="back-image-fit h-100 w-100" src="{%static 'img/logo.svg'%}" alt=""></a>
+        <div class="ml-auto" style="width: 32px; border: none; display: block;">
+          <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+          <label for="openSidebarMenu" class="sidebarIconToggle">
+            <div class="spinner diagonal part-1"></div>
+            <div class="spinner horizontal"></div>
+            <div class="spinner diagonal part-2"></div>
+          </label>
+          <div class="shadow-sm" id="sidebarMenu">
+            <ul class="sidebarMenuInner">
+                <li class="nav-item mx-1 border-bottom">
+                  <form class="px-0 my-3 mx-auto" >
+                    <input class="search-form" type="text" name="keyword" placeholder="レース検索">
+                  </form>
+                </li>
+                <li class="nav-item mx-1 border-bottom {{header_active_1}}">
+                  <a class="font-weight-bold font08rem" href="/"><i class="fa-solid fa-house "></i> ホーム</a>
+                </li>
+                <li class="nav-item mx-1 border-bottom {{header_active_2}}">
+                  <a class="font-weight-bold font08rem" href="{% url 'orverview' %}"><i class="fa-solid fa-book-open"></i> 会社概要</a>
+                </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
   </header>
     <main>
         {% block content %}
         {% endblock %}
     </main>
   </body>
-<footer class="row pt-5 px-0 pb-0 mt-auto mx-0 bg-white shadow-sm overflow-hidden" id="footer">
-  <div class="wave-class px-0">
-    <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-    
-    <defs>
-    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-    </defs>
-    <g class="parallax">
-    <use xlink:href="#gentle-wave" x="48" y="0" fill="#33fffc80" />
-    <use xlink:href="#gentle-wave" x="48" y="3" fill="#ff9c0080" />
-    <use xlink:href="#gentle-wave" x="48" y="5" fill="#0039ff80" />
-    <use xlink:href="#gentle-wave" x="48" y="7" fill="#33fffc80" />
-    </g>
-    </svg>
+<footer class="row py-5 px-0 mt-auto mx-0 bg-white shadow-sm overflow-hidden" id="footer">
+  <div class="col-auto row mx-auto p-4">
+    <img class="col-8 col-md-4 mx-auto d-inline " src="{%static 'img/logo.svg'%}" alt=""  style="fill:#fff;">
+    <div class="col-12">
+      <h6 class="text-center text-dark pt-2 mb-2 font-weight-bold">ELAIZA CRAFT<br><span class="font-weight-bold font08rem">elaiza-craft.com</span></h6>
+      <h6 class="text-center text-muted">
+        <small><small class="font-weight-bold">by RYUSEI KUNIMI</small></small>
+      </h6>
     </div>
-
-  <div class="col-md pb-3 p-md-5">
-    <ul class="row m-0 px-0">  
-      <a class="col-auto pl-0 pr-4 py-2" href="https://www.instagram.com/toshi_kawhi/"><img src="{%static 'img/Instagram.png'%}" alt="" height="34" style="object-fit: cover;"></a>
-      <a class="col-auto pl-0 pr-4 py-2" href="https://twitter.com/Kydolex"><img src="{%static 'img/twitter.png'%}" alt="" height="34" style="object-fit: cover;"></a>  
-      <a class="col-auto pl-0 pr-4 py-2" href=""><img src="{%static 'img/youtube.png'%}" alt="" height="34" style="object-fit: cover;"></a>
-    </ul>
-    <h6 class="text-dark pt-2 mb-2 font-weight-bold">toshi-kawai.com <br><small><small class="font-weight-bold">TOSHI KAWAI Portfolio Site</small></small></h6>
-    <h6 class="text-muted">
-      <small><small class="font-weight-bold">https://toshi-kawai.com <br>by TOSHI KAWAI</small></small>
-    </h6>
+    <div class="row mx-0 my-2">
+      <a class="col-3 d-flex px-0 mx-auto" href=""><img class="mx-auto" src="{%static 'img/Instagram.png'%}" alt="" height="34" style="object-fit: cover;"></a>
+      <a class="col-3 d-flex px-0 mx-auto" href=""><img class="mx-auto" src="{%static 'img/twitter.png'%}" alt="" height="34" style="object-fit: cover;"></a>  
+      <a class="col-3 d-flex px-0 mx-auto" href=""><img class="mx-auto" src="{%static 'img/youtube.png'%}" alt="" height="34" style="object-fit: cover;"></a>
+      <a class="col-3 d-flex px-0 mx-auto" href=""><img class="mx-auto" src="{%static 'img/tiktok.jpg'%}" alt="" height="34" style="object-fit: cover;"></a>
+    </div>
   </div>
-  <div class="col-md pb-3 "></div>
-
-  <div class="col-md pb-3 ml-auto">
-    <h5>Site Map</h5>
-    <ul class="nav flex-column">
-    </ul>
-  </div>
-
-  <div class="col-md pb-3 ml-auto">
-    <h5>SNS</h5>
-    <ul class="nav flex-column">
-      <li class="nav-item mb-2"><a href="https://www.instagram.com/toshi_kawhi/" class="nav-link p-0 text-muted">Instagram</a></li>
-      <li class="nav-item mb-2"><a href="https://twitter.com/toshi_kawhi" class="nav-link p-0 text-muted">Twitter</a></li>
-      <li class="nav-item mb-2"><a href="https://www.youtube.com/channel/UCXTlftE_Em5nNjt5p3y1TkA" class="nav-link p-0 text-muted">YouTube</a></li>
-    </ul>
-  </div>
-
-  <div class="col-md pb-3 ml-auto">
-    <h5>Developd</h5>
-    <ul class="nav flex-column">
-      <li class="nav-item mb-2"><a href="https://oumachan.com/" class="nav-link p-0 text-muted">お馬ちゃんドットコム</a></li>
-      <li class="nav-item mb-2"><a href="https://oumachan.com/" class="nav-link p-0 text-muted">Koneta.net / <small>小ネタネット</small></a></li>
-      <li class="nav-item mb-2"><a href="https://oumachan.com/" class="nav-link p-0 text-muted">共有シート<small>Googleスプレッドシート</small></a></li>
-      <li class="nav-item mb-2"><a href="https://oumachan.com/" class="nav-link p-0 text-muted">ELAIZA CRAFT</a></li>
-
-    </ul>
-  </div>
-
 </footer>
 <div class="col-12 py-3 bg-dark flex-column">
-  <a class="a_none text-center w-100 mb-0 pb-0 font-weight-bold" style="display: inline-block; color: #c0c0c0;" href="oumachan.com">
+  <a class="a_none text-center w-100 mb-0 pb-0 font-weight-bold" style="display: inline-block; color: #c0c0c0;" href="">
     ©︎ https://elaiza-craft.com
   </a>
 </div>
