@@ -23,14 +23,14 @@
 </div>
 <div class="container py-4 px-0">
     <h5 class="font-weight-bold text-center">Used car list<br><span class="font07rem">中古車一覧</span></h5>
-    <div class="row mx-0">
+    <div class="row mx-0 mb-5">
         {% for post in object_list %}
-        <div class="col-12 col-md-4 px-0 py-1 bg-white">
+        <div class="col-12 col-md-4 px-0 py-1 bg-white" id="link-{{ post.id }}">
             <div class="row mx-0 shadow-sm">
                 <div class="col-8 px-0 back-image-fit h-auto" style="background-image: url('{{ post.image.size_2.url }}');">
                     <a href="{% url 'detail' post.id %}" class="w-100 h-100 bg-dark-filter p-2 d-flex a_none">
                         <h6 class="w-100 mt-auto font-weight-bold my-1 text-white">{{ post.name }}
-                            <br><img class="back-image-fit bg-white border-50 my-1" style="width: 1.5rem;" src="{{ post.car.maker.image.size_2.url }}" alt="">
+                            <br><img class="back-image-fit bg-white border-50 my-2" style="width: 1.5rem;" src="{{ post.car.maker.image.size_2.url }}" alt="">
                             <span class="font08rem text-white">{{ post.car.maker }}</span>
                             <br><span class="font06rem text-white">詳細を見る</span></h6>
                     </a>
@@ -45,8 +45,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
+        </div>    
         {% endfor %}
     </div>
 </div>
